@@ -98,7 +98,7 @@ Driver Inputs (Throttle / Brake Demand)
 ```
 
 > 📌 **Figure 1 — Top-level integrated EV model:**
-> ![System Architecture](images/fig01_top_level_model.png)
+> ![System Architecture](Images/Total_system.jpg)
 
 ---
 
@@ -106,7 +106,7 @@ Driver Inputs (Throttle / Brake Demand)
 
 ### 4.1 Powertrain Subsystem
 
-> 📌 ![Powertrain Subsystem](images/fig02_powertrain_subsystem.png)
+> 📌 ![Powertrain Subsystem](Images/Power_train_subsytem.jpg)
 
 - Battery pack modelled as a **voltage source with a charge integrator**, scaling residual charge to a State-of-Charge (SOC) percentage
 - Feeds an **800 V DC bus** connected to a six-switch MOSFET three-phase inverter
@@ -118,7 +118,7 @@ Driver Inputs (Throttle / Brake Demand)
 
 ### 4.2 FOC Controller
 
-> 📌 ![FOC Controller](images/fig03_foc_controller.png)
+> 📌 ![FOC Controller](Images/FOC_controller.png)
 
 - Accepts: speed reference, measured rotor position, phase currents (i_abc), DC bus voltage (800 V)
 - Implements **Clarke and Park transforms** to obtain d-axis current (i_d) and q-axis current (i_q)
@@ -131,7 +131,7 @@ Driver Inputs (Throttle / Brake Demand)
 
 ### 4.3 SOC Subsystem
 
-> 📌 ![SOC Subsystem](images/fig04_soc_subsystem.png)
+> 📌 ![SOC Subsystem](Images/Soc_subsystem.jpg)
 
 - Divides instantaneous remaining charge by total battery capacity (**25.2 MJ / 70 Ah equivalent**)
 - Scales to a percentage output signal
@@ -143,7 +143,7 @@ Driver Inputs (Throttle / Brake Demand)
 
 ### 4.4 Brake Control and Speed Supervisor
 
-> 📌 ![Brake and Speed Control](images/fig05_brake_speed_control.png)
+> 📌 ![Brake and Speed Control](Images/Brake_Control_subsystem.jpg)
 
 Receives: driver throttle, brake demand, vehicle speed, and all four fault flags.
 
@@ -158,13 +158,13 @@ The embedded **Stateflow chart** arbitrates between six operational states:
 | **FAULT (Inverter/Thermal)** | Inverter_fault=1 OR Thermal_fault=1 → motor coasts with light mechanical pressure |
 | **EMERGENCY_REGEN** | Brake_fault=1 AND brake_demand > 0.80 → full motor braking |
 
-> 📌 ![Stateflow Supervisor Logic](images/fig06_stateflow_supervisor.png)
+> 📌 ![Stateflow Supervisor Logic](Images/State_flow_transition.pdf)
 
 ---
 
 ### 4.5 Chassis Subsystem
 
-> 📌 ![Chassis Subsystem](images/fig07_chassis_subsystem.png)
+> 📌 ![Chassis Subsystem](Images/Chasis_subsystem.jpg)
 
 - **Simscape disc brake** actuated by pressure command through an FDI-controlled clutch
 - **Fixed-ratio gearbox** (G = 3.5) links motor to wheel and axle block
@@ -180,7 +180,7 @@ The embedded **Stateflow chart** arbitrates between six operational states:
 
 ### 4.6 Inverter Subsystem and Fault Injection
 
-> 📌 ![Inverter Subsystem](images/fig08_inverter_fault_injection.png)
+> 📌 ![Inverter Subsystem](Images/Inverter.jpg)
 
 - Full bridge with **six MOSFET switches**
 - Fault injection via two dedicated pathways on **MOSFET A(H)**:
@@ -194,7 +194,7 @@ The embedded **Stateflow chart** arbitrates between six operational states:
 
 ### 5.1 Inverter SVPWM Fault Detection
 
-> 📌 ![SVPWM FDI](images/fig09_svpwm_fdi.png)
+> 📌 ![SVPWM FDI](Images/Inverter_fault.jpg)
 
 **Algorithm:** Evaluates real-time statistics of the V_ab signal using an **EMA filter (α = 2.5 × 10⁻⁴)**
 
@@ -219,7 +219,7 @@ Computed metrics (no large data buffers required):
 
 ### 5.2 Motor Thermal Fault Detection
 
-> 📌 ![Thermal FDI](images/fig10_thermal_fdi.png)
+> 📌 ![Thermal FDI](Images/Motor_Temp.jpg)
 
 - Monitors **rate of temperature rise** across Stator A, B, C and Rotor nodes
 - Upstream **derivative blocks** compute temperature change rate (Ṫ)
@@ -235,7 +235,7 @@ Computed metrics (no large data buffers required):
 
 ### 5.3 Brake Failure Detection
 
-> 📌 ![Brake FDI](images/fig11_brake_fdi.png)
+> 📌 ![Brake FDI](Images/Brake_failure_detection.jpg)
 
 Detects hydraulic failure by **continuously validating physical consistency** (not simulation timers):
 
@@ -254,7 +254,7 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 
 ### 5.4 Velocity Sensor Fault Rectification
 
-> 📌 ![Velocity FDI](images/fig12_velocity_fdi.png)
+> 📌 ![Velocity FDI](Images/Sensor_fault_rectification.jpg)
 
 - Applies **EMA filter (α = 0.02)** to raw encoder RPM → generates smooth `filtered_rpm`
 - Computes absolute residual between raw and filtered data
@@ -401,27 +401,27 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 ### Normal Operation (Fault-Free Baseline)
 
 > 📌 **Driver Inputs — Throttle Command and Brake Demand over time:**
-> ![Driver Inputs](images/fig13_driver_inputs.png)
+> ![Driver Inputs](Images/Throttle_cmd_and_brake_cmd.png)
 
 > 📌 **Vehicle Speed Profile (Normal Operation):**
-> ![Vehicle Speed](images/fig14_vehicle_speed_normal.png)
+> ![Vehicle Speed](Images/Vechical_speed.png)
 
 > 📌 **Battery SOC Profile (Normal Operation):**
-> ![Battery SOC](images/fig15_battery_soc_normal.png)
+> ![Battery SOC](Images/Soc.png)
 
 - SOC starts at ~92.86% and depletes slowly over the 20-second drive cycle
 - SOC recovers slightly during regenerative braking phases (13–16 s)
 - Final SOC: ~92.78% — consistent with realistic EV power draw limits
 
 > 📌 **Motor Performance — Demanded vs. Achieved Torque, Speed, Gate Demands, Phase Currents:**
-> ![Motor Performance Normal](images/fig16_motor_performance_normal.png)
+> ![Motor Performance Normal](Images/Motor_speed_torque_current.png)
 
 ---
 
 ### Inverter Fault Detection Results
 
 > 📌 **Global Inverter Fault Flag — OC (3–4 s) and SC (6–7 s):**
-> ![Inverter Fault Flag](images/fig17_inverter_fault_flag.png)
+> ![Inverter Fault Flag](Images/Inverter_fault_flag.png)
 
 - At **t = 3 s**: OC fault caused EMA mean voltage to rapidly drift beyond 80 V threshold → global and OC-specific flags set
 - At **t = 4.1 s**: Automated reset pulse cleared all flags — system recovered
@@ -429,16 +429,16 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 - Supervisor immediately commanded **zero torque** → visible speed dips while protecting the driveline
 
 > 📌 **Open Circuit vs. Short Circuit Diagnosis Flags (no overlap):**
-> ![Fault Isolation Flags](images/fig18_fault_isolation_flags.png)
+> ![Fault Isolation Flags](Images/Sc_diagnosis.png)
 
 > 📌 **Phase-to-Phase Voltage (V_ab) During Fault Injections:**
-> ![Vab During Faults](images/fig19_vab_faults.png)
+> ![Vab During Faults](Images/Vab_sc_oc.png)
 
 > 📌 **Motor Performance Under OC and SC Fault Conditions:**
-> ![Motor Performance Faults](images/fig20_motor_performance_faults.png)
+> ![Motor Performance Faults](Images/Motor_speed_short_and_open.png)
 
 > 📌 **Vehicle Speed Reflecting Momentum Loss During Inverter Fault Periods:**
-> ![Vehicle Speed Inverter Fault](images/fig21_vehicle_speed_inverter_fault.png)
+> ![Vehicle Speed Inverter Fault](Images/Vechical_speed_sc_oc.png)
 
 ---
 
@@ -450,16 +450,16 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 - Supervisor derated motor to **zero torque** during lockout → temporary loss of vehicle speed
 
 > 📌 **Thermal Trigger and Stator A Temperature Response:**
-> ![Thermal Trigger](images/fig22_thermal_trigger.png)
+> ![Thermal Trigger](Images/Thermal_trigger.png)
 
 > 📌 **Thermal Fault Flag Latching and Auto-Reset at 305 K:**
-> ![Thermal Flag](images/fig23_thermal_flag.png)
+> ![Thermal Flag](Images/Thermal_fault_flag.png)
 
 > 📌 **Motor Performance During Thermal Fault (Interrupted Torque Delivery):**
-> ![Motor Thermal Fault](images/fig24_motor_thermal_fault.png)
+> ![Motor Thermal Fault](Images/Motor_speed_thermal_failure.png)
 
 > 📌 **Vehicle Speed Profile During Thermal Lockout Phase:**
-> ![Vehicle Speed Thermal](images/fig25_vehicle_speed_thermal.png)
+> ![Vehicle Speed Thermal](Images/Thermal_vechical_speed.png)
 
 ---
 
@@ -472,13 +472,13 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 - Once speed dropped below **0.5 km/h**: `clutch_engage` severed → driveline physically isolated
 
 > 📌 **Brake Failure Flag and Loss of Mechanical Braking Torque:**
-> ![Brake Failure](images/fig26_brake_failure.png)
+> ![Brake Failure](Images/Brake_failure_flag.png)
 
 > 📌 **Motor Performance During Brake Failure — Emergency Regenerative Braking:**
-> ![Motor Brake Failure](images/fig27_motor_brake_failure.png)
+> ![Motor Brake Failure](Images/motor_speed_brake_failure.png)
 
 > 📌 **Vehicle Deceleration and Final Clutch Isolation:**
-> ![Vehicle Decel Clutch](images/fig28_vehicle_decel_clutch.png)
+> ![Vehicle Decel Clutch](Images/Vechical_speed_brake_failure.png)
 
 ---
 
@@ -490,13 +490,13 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 - FDI algorithm correctly and intermittently output **Fault Code 4 (High Noise Floor)**
 
 > 📌 **Raw Velocity Sensor Output Corrupted by Rotational Noise:**
-> ![Raw RPM](images/fig29_raw_rpm_noise.png)
+> ![Raw RPM](Images/Raw_rpm_zoomed.png)
 
 > 📌 **Velocity Signal After EMA Filtering — Significant Noise Attenuation:**
-> ![Filtered RPM](images/fig30_filtered_rpm.png)
+> ![Filtered RPM](Images/Filtered_rpm_zoom.png)
 
 > 📌 **Diagnostic Fault Code Output Responding to Velocity Sensor Noise:**
-> ![Fault Code Output](images/fig31_fault_code_output.png)
+> ![Fault Code Output](Images/Fault_code_rpm.png)
 
 ---
 
@@ -565,7 +565,7 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 
 ### Model Advisor Report
 
-> 📌 ![Model Advisor Report](images/fig36_model_advisor.png)
+> 📌 ![Model Advisor Report](Images/Model_advisor.png)
 
 | Metric | Result |
 |---|---|
@@ -579,10 +579,10 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 ### Coverage Report
 
 > 📌 **Before optimization:**
-> ![Coverage Before](images/fig37_coverage_before.png)
+> ![Coverage Before](Images/Before_coverage.png)
 
 > 📌 **After optimization:**
-> ![Coverage After](images/fig38_coverage_after.png)
+> ![Coverage After](Images/Coverage_after.png)
 
 | Subsystem | Decision Coverage (After) | Execution Coverage |
 |---|---|---|
@@ -596,10 +596,10 @@ Detects hydraulic failure by **continuously validating physical consistency** (n
 ## 💻 Code Generation
 
 > 📌 **Simulink Coder — Configuration Settings:**
-> ![Code Gen Config](images/fig39_codegen_config.png)
+> ![Code Gen Config](Images/Code_genration_settings.png)
 
 > 📌 **Code Generation Report Summary:**
-> ![Code Gen Report](images/fig40_codegen_report.png)
+> ![Code Gen Report](Images/Code_genration_report_summary.png)
 
 | Parameter | Value |
 |---|---|
