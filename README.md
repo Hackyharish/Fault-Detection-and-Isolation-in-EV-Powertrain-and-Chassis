@@ -1,6 +1,6 @@
 <div align="center">
 
-![Banner](Images/banner.png)
+![Banner](Images/Banner.png)
 
 # ⚡ Fault Detection and Isolation in EV Powertrain and Chassis
 
@@ -179,7 +179,7 @@ The embedded **Stateflow chart** arbitrates between six operational states:
 | **FAULT (Inverter/Thermal)** | Inverter_fault=1 OR Thermal_fault=1 → motor coasts with light mechanical pressure |
 | **EMERGENCY_REGEN** | Brake_fault=1 AND brake_demand > 0.80 → full motor braking |
 
-> 📌 ![Stateflow Supervisor Logic](Images/State_flow_transition.pdf)
+> 📌 ![Stateflow Supervisor Logic](Images/State_flow_transition.jpg)
 
 ---
 
