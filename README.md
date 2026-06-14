@@ -1,3 +1,7 @@
+<div align="center">
+
+![Banner](Images/banner.png)
+
 # ⚡ Fault Detection and Isolation in EV Powertrain and Chassis
 
 > **Tata Technologies — Applied Model-Based Design (AMBD) Capstone Project**
@@ -9,11 +13,14 @@
 ![Stateflow](https://img.shields.io/badge/Stateflow-Supervisor-purple?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
+</div>
+
 ---
 
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
+- [Demo Video](#-demo-video)
 - [Problem Statement](#-problem-statement)
 - [System Architecture](#-system-architecture)
 - [Subsystem Descriptions](#-subsystem-descriptions)
@@ -49,6 +56,20 @@ This project implements a **comprehensive, real-time Fault Detection and Isolati
 The simulation is built around an **800 V, 250 N·m IPMSM** driven through Field-Oriented Control (FOC) with Maximum Torque Per Ampere (MTPA) and automatic field weakening. A **Stateflow supervisory controller** arbitrates between six operational modes in real time based on fault flags, SOC, speed, and brake demand inputs.
 
 The entire verified model logic is exported as **deployable ANSI-C embedded code** via Simulink Coder, directly targeting microcontroller hardware — consistent with **ISO 26262** functional safety design principles.
+
+---
+
+## 🎬 Demo Video
+
+<div align="center">
+
+[![EV FDI Project Demo](https://img.youtube.com/vi/7XZzh8KPkgI/maxresdefault.jpg)](https://youtu.be/7XZzh8KPkgI)
+
+**▶️ Click to watch the full simulation demo on YouTube**
+
+*A complete walkthrough of the EV FDI system — covering normal operation, inverter fault injection, thermal fault detection, brake failure, and velocity sensor noise identification.*
+
+</div>
 
 ---
 
@@ -631,8 +652,8 @@ EV-FDI-Powertrain-Chassis/
 │   ├── Test_project_params.m     # Parameter initialization script
 │   └── MTPA_LUT.mat              # Pre-computed MTPA look-up tables
 │
-└── 📂 images/
-    └── fig01_top_level_model.png ... 
+└── 📂 Images/
+    └── (all images referenced in this README)
 ```
 
 > **Note:** To run the simulation, open `Test_project.slx` in MATLAB R2025b (Simulink 25.2) and run `Test_project_params.m` first to initialize all workspace variables.
@@ -660,6 +681,9 @@ EV-FDI-Powertrain-Chassis/
   </tr>
 </table>
 
+**Supervisor:** SR Mohanrajan
+**Programme:** Tata Technologies Applied Model-Based Design (AMBD) Capstone
+**Date:** June 11, 2026
 
 ---
 
@@ -676,4 +700,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ---
 
 <div align="center">
+  <sub>Built with ❤️ as part of the Tata Technologies AMBD Capstone Programme | 2026</sub>
 </div>
